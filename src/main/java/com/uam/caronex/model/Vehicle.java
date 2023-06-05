@@ -16,4 +16,6 @@ public class Vehicle {
 
     @Pattern(regexp = "^[a-zA-Z]{3}\\d[A-Za-z0-9]\\d{2}$")
     private String plate;
+
+    private Integer places;
 }
