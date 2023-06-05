@@ -3,9 +3,7 @@ package com.uam.caronex.entity;
 import com.uam.caronex.model.Location;
 import com.uam.caronex.model.Vehicle;
 import com.uam.caronex.util.RideStatusEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "rides")
@@ -27,6 +27,5 @@ public class RideEntity {
     private LocalDateTime dateTime;
     private Vehicle vehicle;
     private RideStatusEnum status;
-
 
 }

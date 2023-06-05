@@ -25,4 +25,6 @@ public class UserEntity {
     private LocalDate birthDate;
     private String cpf;
     private String cnh;
+    private Boolean isDriver;
+
 }
