@@ -1,7 +1,7 @@
 package com.uam.caronex.repository;
 
-import com.uam.caronex.dto.RideResponse;
 import com.uam.caronex.entity.RideEntity;
+import com.uam.caronex.model.NewRideModel;
 import com.uam.caronex.model.RideModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -53,6 +53,10 @@ public class RideRepository {
         query.with(Sort.by(Sort.Direction.DESC, "dateTime"));
 
         return mongoTemplate.find(query, RideEntity.class);
+    }
+
+    public RideEntity createRide(RideEntity model) {
+        return mongoTemplate.save(model, "rides");
     }
 }
 

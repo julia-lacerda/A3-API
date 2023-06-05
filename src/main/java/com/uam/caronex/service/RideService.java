@@ -1,5 +1,7 @@
 package com.uam.caronex.service;
 
+import com.uam.caronex.dto.NewRideRequest;
+import com.uam.caronex.dto.UserResponse;
 import com.uam.caronex.entity.RideEntity;
 import com.uam.caronex.mapper.RideMapper;
 import com.uam.caronex.dto.RideRequest;
@@ -21,8 +23,11 @@ public class RideService {
 
     private RideMapper rideMapper;
 
+    private UserService userService;
+
     @Autowired
-    public RideService(RideRepository rideRepository) {
+    public RideService(RideRepository rideRepository, UserService userService) {
+        this.userService = userService;
         this.rideRepository = rideRepository;
     }
     public List<RideResponse> getRides(RideRequest rideRequest) {
@@ -30,5 +35,12 @@ public class RideService {
         return list.stream().map(RideMapper::toResponse).toList();
     }
 
+
+    public RideResponse createRide(NewRideRequest newRideRequest) {
+        UserResponse user = userService.findUserById(newRideRequest.getCpf());
+        RideEntity rideEntity = rideRepository.createRide(RideMapper.toEntity(newRideRequest, user));
+
+       return RideMapper.toResponse(rideEntity);
+    }
 
 }

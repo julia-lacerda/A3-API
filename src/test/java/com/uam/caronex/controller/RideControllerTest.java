@@ -1,7 +1,9 @@
 package com.uam.caronex.controller;
 
+import com.uam.caronex.dto.NewRideRequest;
 import com.uam.caronex.dto.RideRequest;
 import com.uam.caronex.dto.RideResponse;
+import com.uam.caronex.dto.UserResponse;
 import com.uam.caronex.entity.UserEntity;
 import com.uam.caronex.mapper.RideMapper;
 import com.uam.caronex.model.Account;
@@ -9,6 +11,7 @@ import com.uam.caronex.model.Location;
 import com.uam.caronex.model.Vehicle;
 import com.uam.caronex.repository.RideRepository;
 import com.uam.caronex.service.RideService;
+import com.uam.caronex.service.UserService;
 import com.uam.caronex.util.RideStatusEnum;
 import org.apache.catalina.User;
 import org.junit.jupiter.api.Test;
@@ -33,6 +36,9 @@ public class RideControllerTest {
     private RideService rideService;
 
     @Mock
+    private UserService userService;
+
+    @Mock
     private RideRepository  rideRepository;
 
     @InjectMocks
@@ -51,4 +57,16 @@ public class RideControllerTest {
         assertEquals(rideResponses, result);
     }
 
+    @Test
+    void Should_ReturnRideResponse_When_CreateRide() {
+        NewRideRequest newRideRequest = new NewRideRequest();
+        RideResponse rideResponse = new RideResponse();
+        UserResponse user = new UserResponse();
+
+        Mockito.when(rideService.createRide(newRideRequest)).thenReturn(rideResponse);
+
+        RideResponse result = rideController.createRide(newRideRequest);
+
+        assertEquals(rideResponse, result);
+    }
 }

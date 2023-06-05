@@ -1,8 +1,12 @@
 package com.uam.caronex.mapper;
 
+import com.uam.caronex.dto.NewRideRequest;
 import com.uam.caronex.dto.RideRequest;
 import com.uam.caronex.dto.RideResponse;
+import com.uam.caronex.dto.UserResponse;
 import com.uam.caronex.entity.RideEntity;
+import com.uam.caronex.entity.UserEntity;
+import com.uam.caronex.model.NewRideModel;
 import com.uam.caronex.model.RideModel;
 import org.springframework.stereotype.Component;
 
@@ -33,4 +37,27 @@ public class RideMapper {
                 .status(ride.getStatus())
                 .build();
     }
+
+    public static RideEntity toEntity(NewRideRequest newRideRequest, UserResponse user) {
+        return RideEntity.builder()
+                .owner(UserEntity.builder()
+                                .id(user.getId())
+                                .account(user.getAccount())
+                                .name(user.getName())
+                                .phoneNumber(user.getPhoneNumber())
+                                .birthDate(user.getBirthDate())
+                                .cpf(user.getCpf())
+                                .cnh(user.getCnh())
+                                .isDriver(user.getIsDriver())
+                                .build())
+                .origin(newRideRequest.getOrigin())
+                .destination(newRideRequest.getDestination())
+                .participantsList(newRideRequest.getParticipantsList())
+                .dateTime(newRideRequest.getDateTime())
+                .vehicle(newRideRequest.getVehicle())
+                .status(newRideRequest.getStatus())
+                .build();
+    }
+
+
 }
