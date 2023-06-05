@@ -69,4 +69,28 @@ public class RideControllerTest {
 
         assertEquals(rideResponse, result);
     }
+
+    @Test
+    void Should_ReturnRideResponseList_When_GetAllRidesAsDriver() {
+        String cpf = "12345678910";
+        RideResponse response = new RideResponse();
+
+        Mockito.when(rideService.getAllRidesAsDriver(cpf)).thenReturn(List.of(response));
+
+        List<RideResponse> result = rideController.getAllRidesAsDriver(cpf);
+
+        assertEquals(List.of(response), result);
+    }
+
+    @Test
+    void Should_ReturnRideResponseList_When_GetAllRidesAsUser() {
+        String cpf = "12345678910";
+        RideResponse response = new RideResponse();
+
+        Mockito.when(rideService.getAllRidesAsDriver(cpf)).thenReturn(List.of(response));
+
+        List<RideResponse> result = rideController.getAllRidesAsDriver(cpf);
+
+        assertEquals(List.of(response), result);
+    }
 }

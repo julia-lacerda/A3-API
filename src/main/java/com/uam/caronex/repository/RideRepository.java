@@ -1,5 +1,6 @@
 package com.uam.caronex.repository;
 
+import com.uam.caronex.dto.RideResponse;
 import com.uam.caronex.entity.RideEntity;
 import com.uam.caronex.model.NewRideModel;
 import com.uam.caronex.model.RideModel;
@@ -55,9 +56,25 @@ public class RideRepository {
         return mongoTemplate.find(query, RideEntity.class);
     }
 
+    public List<RideEntity> getAllRidesAsDriver(String cpf) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("owner.cpf").is(cpf));
+        query.with(Sort.by(Sort.Direction.DESC, "dateTime"));
+        return mongoTemplate.find(query, RideEntity.class);
+    }
+
+    public List<RideEntity> getAllRidesAsUser(String cpf) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("owner.cpf").ne(cpf));
+        query.with(Sort.by(Sort.Direction.DESC, "dateTime"));
+        return mongoTemplate.find(query, RideEntity.class);
+    }
+
     public RideEntity createRide(RideEntity model) {
         return mongoTemplate.save(model, "rides");
     }
+
+
 }
 
 

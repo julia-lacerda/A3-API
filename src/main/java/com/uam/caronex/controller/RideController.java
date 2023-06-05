@@ -20,8 +20,17 @@ public class RideController {
     public List<RideResponse> getRides(@RequestBody RideRequest rideRequest) {
         return rideService.getRides(rideRequest);
     }
+    @GetMapping("/getAllRides/asDriver")
+    public List<RideResponse> getAllRidesAsDriver(String cpf) {
+        return rideService.getAllRidesAsDriver(cpf);
+    }
+    @GetMapping("/getAllRides/asUser")
+    public List<RideResponse> getAllRidesAsUser(String cpf) {
+        return rideService.getAllRidesAsUser(cpf);
+    }
 
     @PostMapping("/createRide")
     public RideResponse createRide(@RequestBody NewRideRequest newRideRequest){    return rideService.createRide(newRideRequest);
     }
+
 }

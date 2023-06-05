@@ -43,4 +43,16 @@ public class RideService {
        return RideMapper.toResponse(rideEntity);
     }
 
+    public List<RideResponse> getAllRidesAsDriver(String cpf) {
+        UserResponse user = userService.findUserById(cpf);
+        if(user.getCnh() != null) {
+            List<RideEntity> list = rideRepository.getAllRidesAsDriver(cpf);
+            return list.stream().map(RideMapper::toResponse).toList();
+        }else throw new RuntimeException("User is not a driver");
+    }
+
+    public List<RideResponse> getAllRidesAsUser(String cpf) {
+        List<RideEntity> list = rideRepository.getAllRidesAsUser(cpf);
+        return list.stream().map(RideMapper::toResponse).toList();
+    }
 }
