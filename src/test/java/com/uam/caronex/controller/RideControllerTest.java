@@ -4,53 +4,49 @@ import com.uam.caronex.dto.NewRideRequest;
 import com.uam.caronex.dto.RideRequest;
 import com.uam.caronex.dto.RideResponse;
 import com.uam.caronex.dto.UserResponse;
+import com.uam.caronex.entity.RideEntity;
 import com.uam.caronex.entity.UserEntity;
-import com.uam.caronex.mapper.RideMapper;
-import com.uam.caronex.model.Account;
-import com.uam.caronex.model.Location;
-import com.uam.caronex.model.Vehicle;
+import com.uam.caronex.model.*;
 import com.uam.caronex.repository.RideRepository;
 import com.uam.caronex.service.RideService;
 import com.uam.caronex.service.UserService;
-import com.uam.caronex.util.RideStatusEnum;
-import org.apache.catalina.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class RideControllerTest {
 
     @Mock
+    RideRepository rideRepository;
+    @Mock
     private RideService rideService;
 
     @Mock
-    private UserService userService;
-
-    @Mock
-    private RideRepository  rideRepository;
-
+    UserService userService;
     @InjectMocks
     private RideController rideController;
+
     @Test
-    void Should_ReturnRideResponse_When_GetRides() {
+    void shouldReturnRideResponse_WhenGetRides() {
         RideRequest rideRequest = new RideRequest();
         UserEntity user = new UserEntity();
         RideResponse rideResponse = new RideResponse();
         List<RideResponse> rideResponses = List.of(rideResponse);
 
-        Mockito.when(rideService.getRides(rideRequest)).thenReturn(rideResponses);
+        when(rideService.getRides(rideRequest)).thenReturn(rideResponses);
 
         List<RideResponse> result = rideController.getRides(rideRequest);
 
@@ -58,12 +54,12 @@ public class RideControllerTest {
     }
 
     @Test
-    void Should_ReturnRideResponse_When_CreateRide() {
+    void shouldReturnRideResponse_WhenCreateRide() {
         NewRideRequest newRideRequest = new NewRideRequest();
         RideResponse rideResponse = new RideResponse();
         UserResponse user = new UserResponse();
 
-        Mockito.when(rideService.createRide(newRideRequest)).thenReturn(rideResponse);
+        when(rideService.createRide(newRideRequest)).thenReturn(rideResponse);
 
         RideResponse result = rideController.createRide(newRideRequest);
 
@@ -71,11 +67,11 @@ public class RideControllerTest {
     }
 
     @Test
-    void Should_ReturnRideResponseList_When_GetAllRidesAsDriver() {
+    void shouldReturnRideResponseList_WhenGetAllRidesAsDriver() {
         String cpf = "12345678910";
         RideResponse response = new RideResponse();
 
-        Mockito.when(rideService.getAllRidesAsDriver(cpf)).thenReturn(List.of(response));
+        when(rideService.getAllRidesAsDriver(cpf)).thenReturn(List.of(response));
 
         List<RideResponse> result = rideController.getAllRidesAsDriver(cpf);
 
@@ -83,14 +79,39 @@ public class RideControllerTest {
     }
 
     @Test
-    void Should_ReturnRideResponseList_When_GetAllRidesAsUser() {
+    void shouldReturnRideResponseList_WhenGetAllRidesAsUser() {
         String cpf = "12345678910";
         RideResponse response = new RideResponse();
 
-        Mockito.when(rideService.getAllRidesAsDriver(cpf)).thenReturn(List.of(response));
+        when(rideService.getAllRidesAsDriver(cpf)).thenReturn(List.of(response));
 
         List<RideResponse> result = rideController.getAllRidesAsDriver(cpf);
 
         assertEquals(List.of(response), result);
     }
+
+    @Test
+    public void shouldReturnUpdatedRideResponse_WhenUpdateRide() {
+        UpdateRideRequest request = new UpdateRideRequest();
+        RideResponse expectedResponse = RideResponse.builder().id("123").build();
+
+        when(rideService.updateRide(request)).thenReturn(expectedResponse);
+
+        RideResponse actualResponse = rideController.updateRide(request);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void shouldAddParticipant_WhenUserJoinRide() {
+        AddParticipantRequest request = new AddParticipantRequest();
+        RideResponse expectedResponse = RideResponse.builder().id("a1b2c23").build();
+
+        when(rideService.addParticipant(request)).thenReturn(expectedResponse);
+
+        RideResponse actualResponse = rideController.addParticipant(request);
+
+        assertEquals(expectedResponse.getId(), actualResponse.getId());
+    }
+
 }
