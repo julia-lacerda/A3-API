@@ -7,6 +7,7 @@ import com.uam.caronex.mapper.UserMapper;
 import com.uam.caronex.dto.AddParticipantRequest;
 import com.uam.caronex.dto.UpdateRideRequest;
 import com.uam.caronex.repository.RideRepository;
+import com.uam.caronex.util.RideStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,37 @@ public class RideService {
 
         UserResponse user = userService.findUserById(request.getUserCpf());
         ride.getParticipantsList().add(UserMapper.toEntity(user));
+        return rideRepository.updateRide(ride);
+    }
+
+
+    public RideResponse removeParticipant(RemoveParticipantRequest request) {
+        RideEntity ride = rideRepository.getRide(request.getRideId());
+
+        // Verify if user is a participant of the ride
+        if (ride.getParticipantsList() == null || ride.getParticipantsList().stream().noneMatch(user -> user.getCpf().equals(request.getUserCpf())))
+           throw new RuntimeException("User is not a participant");
+
+        ride.getParticipantsList().removeIf(user -> user.getCpf().equals(request.getUserCpf()));
+
+        return rideRepository.updateRide(ride);
+    }
+
+    public RideResponse cancelRide(CancelRideRequest request) {
+        UserResponse user = userService.findUserById(request.getUserCpf());
+
+        // Verify if user that is trying to cancel is a driver
+        if(!user.getIsDriver())
+            throw new RuntimeException("User is not a driver. Only drivers can cancel a ride");
+
+        RideEntity ride = rideRepository.getRide(request.getRideId());
+
+        // Verify if ride is status available
+        if(!ride.getStatus().equals(RideStatusEnum.AVAILABLE))
+            throw new RuntimeException("This ride can not be canceled.");
+
+        ride.setStatus(RideStatusEnum.CANCELED);
+
         return rideRepository.updateRide(ride);
     }
 

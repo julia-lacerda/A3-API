@@ -64,18 +64,18 @@ public class UserService {
         return VehicleMapper.toResponse(vehicleEntity);
     }
 
-    public VehicleResponse updateVehicle(String cpf, String vehicleId, VehicleRequest request) {
+    public VehicleResponse updateVehicle(String cpf, String vehiclePlate, VehicleRequest request) {
         UserEntity user = userRepository.findUserById(cpf);
         if(user == null) {
             throw new RuntimeException("User not found");
         }
 
         if(user.getVehicles().stream()
-                .noneMatch(v -> v.getId().equals(vehicleId)))
+                .noneMatch(v -> v.getPlate().equals(vehiclePlate)))
                 throw new RuntimeException("Vehicle not found");
 
-        VehicleEntity entity = VehicleMapper.toEntity(vehicleId, request);
-        user.getVehicles().removeIf(vehicle -> vehicle.getId().equals(vehicleId));
+        VehicleEntity entity = VehicleMapper.toEntity(vehiclePlate, request);
+        user.getVehicles().removeIf(vehicle -> vehicle.getPlate().equals(vehiclePlate));
         user.getVehicles().add(entity);
         userRepository.update(user);
 

@@ -1,10 +1,6 @@
 package com.uam.caronex.controller;
 
-import com.uam.caronex.dto.NewRideRequest;
-import com.uam.caronex.dto.RideRequest;
-import com.uam.caronex.dto.RideResponse;
-import com.uam.caronex.dto.AddParticipantRequest;
-import com.uam.caronex.dto.UpdateRideRequest;
+import com.uam.caronex.dto.*;
 import com.uam.caronex.service.RideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +39,16 @@ public class RideController {
     @PostMapping("/addParticipant")
     public RideResponse addParticipant(@RequestBody AddParticipantRequest request){
         return rideService.addParticipant(request);
+    }
+
+    @PostMapping("/removeParticipant")
+    public RideResponse removeParticipant(@RequestBody RemoveParticipantRequest request){
+        return rideService.removeParticipant(request);
+    }
+
+    @PostMapping("/cancelRide")
+    public RideResponse cancelRide(@RequestBody CancelRideRequest request) {
+        return rideService.cancelRide(request);
     }
 
 }

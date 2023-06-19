@@ -177,24 +177,23 @@ public class UserServiceTest {
 
     @Test
     public void shouldUpdateVehicleOnDatabase_WhenUpdateVehicle() {
-        // Mock input data
         String cpf = "123456789";
-        String vehicleId = "vehicle-1";
+        String plate = "ABC1234";
         VehicleRequest request = new VehicleRequest();
         UserEntity userEntity = new UserEntity();
         VehicleEntity existingVehicleEntity = new VehicleEntity();
-        existingVehicleEntity.setId(vehicleId);
+        existingVehicleEntity.setPlate(plate);
         userEntity.setVehicles(new ArrayList<>(List.of(existingVehicleEntity)));
         VehicleEntity updatedVehicleEntity = new VehicleEntity();
-        updatedVehicleEntity.setId(vehicleId);
+        updatedVehicleEntity.setPlate(plate);
         VehicleResponse expectedResponse = new VehicleResponse();
 
-        when(userRepository.findUserById(eq(cpf))).thenReturn(userEntity);
-        when(userRepository.update(eq(userEntity))).thenReturn(userEntity);
+        when(userRepository.findUserById(anyString())).thenReturn(userEntity);
+        when(userRepository.update(any(UserEntity.class))).thenReturn(userEntity);
 
-        VehicleResponse actualResponse = userService.updateVehicle(cpf, vehicleId, request);
+        VehicleResponse actualResponse = userService.updateVehicle(cpf, plate, request);
 
-        assertEquals(expectedResponse.getId(), actualResponse.getId());
+        assertEquals(expectedResponse.getPlate(), actualResponse.getPlate());
     }
 
     @Test

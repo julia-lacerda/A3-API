@@ -12,8 +12,8 @@ import java.util.List;
 @Builder
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserResponse {
     @Id
     private String id;

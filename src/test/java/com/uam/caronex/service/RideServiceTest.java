@@ -1,16 +1,12 @@
 package com.uam.caronex.service;
 
-import com.uam.caronex.dto.NewRideRequest;
-import com.uam.caronex.dto.RideRequest;
-import com.uam.caronex.dto.RideResponse;
-import com.uam.caronex.dto.UserResponse;
+import com.uam.caronex.dto.*;
 import com.uam.caronex.entity.RideEntity;
 import com.uam.caronex.entity.UserEntity;
 import com.uam.caronex.mapper.RideMapper;
-import com.uam.caronex.dto.AddParticipantRequest;
 import com.uam.caronex.model.RideModel;
-import com.uam.caronex.dto.UpdateRideRequest;
 import com.uam.caronex.repository.RideRepository;
+import com.uam.caronex.util.RideStatusEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,8 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -189,6 +186,113 @@ public class RideServiceTest {
         RideResponse actualResponse = rideService.addParticipant(addParticipantRequest);
 
         assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void shouldRemoveParticipant_WhenParticipantExists() {
+        // Given
+        UserEntity participant = new UserEntity();
+        participant.setCpf("12345678910");
+        RemoveParticipantRequest request = new RemoveParticipantRequest("1234", "12345678910");
+        RideEntity ride = new RideEntity();
+        ride.setId("12364");
+        List<UserEntity> participantsList = new ArrayList<>(List.of(participant));
+        ride.setParticipantsList(participantsList);
+
+        when(rideRepository.getRide(anyString())).thenReturn(ride);
+
+        // When
+        RideResponse response = rideService.removeParticipant(request);
+
+        // Then
+        verify(rideRepository).updateRide(ride);
+        assertEquals(0, ride.getParticipantsList().size());
+    }
+
+    @Test
+    void shouldThrowRuntimeException_WhenParticipantDoesNotExist() {
+
+        UserEntity participant = new UserEntity();
+        participant.setCpf("1457878959");
+        RemoveParticipantRequest request = new RemoveParticipantRequest("1234", "123645678910");
+        RideEntity ride = new RideEntity();
+        ride.setId("1234");
+        List<UserEntity> participantsList = new ArrayList<>(List.of(participant));
+
+        ride.setParticipantsList(participantsList);
+
+        when(rideRepository.getRide("rideId")).thenReturn(ride);
+
+        // When/Then
+        assertThrows(RuntimeException.class, () -> rideService.removeParticipant(request));
+    }
+
+
+    @Test
+    void shouldReturnRideResponse_WhenCancelRide() {
+        String userCpf = "123456789";
+        String rideId = "ride123";
+
+        UserResponse driverUser = new UserResponse();
+        driverUser.setName("Julia");
+        driverUser.setCpf(userCpf);
+        driverUser.setIsDriver(true);
+
+        RideEntity ride = new RideEntity();
+        ride.setId(rideId);
+        ride.setStatus(RideStatusEnum.AVAILABLE);
+
+        RideResponse expectedResponse = new RideResponse();
+        expectedResponse.setId(rideId);
+        expectedResponse.setStatus(RideStatusEnum.CANCELED);
+
+        when(userService.findUserById(anyString())).thenReturn(driverUser);
+        when(rideRepository.getRide(anyString())).thenReturn(ride);
+
+        doReturn(expectedResponse).when(rideRepository).updateRide(ride);
+
+
+        RideResponse actualResponse = rideService.cancelRide(new CancelRideRequest(userCpf, rideId));
+
+        assertEquals(expectedResponse, actualResponse);
+        assertEquals(RideStatusEnum.CANCELED, ride.getStatus());
+    }
+
+    @Test
+    void shouldThrowRuntimeException_WhenCancelRideWithNonDriverUser() {
+        // Given
+        String userCpf = "123456789";
+        String rideId = "1234";
+        UserResponse nonDriverUser = new UserResponse();
+        nonDriverUser.setName("Alessandra");
+        nonDriverUser.setCpf(userCpf);
+        nonDriverUser.setIsDriver(false);
+
+        when(userService.findUserById(userCpf)).thenReturn(nonDriverUser);
+
+        // When/Then
+        assertThrows(RuntimeException.class, () -> rideService.cancelRide(new CancelRideRequest(userCpf, rideId)));
+    }
+
+    @Test
+    void shouldThrowRuntimeException_WhenCancelNonAvailableRide() {
+        // Given
+        String userCpf = "123456789";
+        String rideId = "ride123";
+        UserResponse driverUser = new UserResponse();
+        driverUser.setName("Alessandra");
+        driverUser.setCpf(userCpf);
+        driverUser.setIsDriver(false);
+
+        RideEntity ride = new RideEntity();
+        ride.setId(rideId);
+        ride.setStatus(RideStatusEnum.CLOSED);
+
+        when(userService.findUserById(userCpf)).thenReturn(driverUser);
+        when(rideRepository.getRide(rideId)).thenReturn(ride);
+
+        // When/Then
+        assertThrows(RuntimeException.class, () -> rideService.cancelRide(new CancelRideRequest(userCpf, rideId)));
     }
 
 }

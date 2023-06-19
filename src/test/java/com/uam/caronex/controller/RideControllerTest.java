@@ -104,4 +104,28 @@ public class RideControllerTest {
         assertEquals(expectedResponse.getId(), actualResponse.getId());
     }
 
+    @Test
+    public void shouldRemoveParticipant_WhenUserCancelRide() {
+        RemoveParticipantRequest request = new RemoveParticipantRequest();
+        RideResponse expectedResponse = RideResponse.builder().id("a1b2c23").build();
+
+        when(rideService.removeParticipant(request)).thenReturn(expectedResponse);
+
+        RideResponse actualResponse = rideController.removeParticipant(request);
+
+        assertEquals(expectedResponse.getId(), actualResponse.getId());
+    }
+
+    @Test
+    public void shouldUpdateRide_WhenDriverCancelRide() {
+        CancelRideRequest request = new CancelRideRequest();
+        RideResponse expectedResponse = RideResponse.builder().id("a1b2c23").build();
+
+        when(rideService.cancelRide(request)).thenReturn(expectedResponse);
+
+        RideResponse actualResponse = rideController.cancelRide(request);
+
+        assertEquals(expectedResponse.getId(), actualResponse.getId());
+    }
+
 }
