@@ -19,4 +19,18 @@ public class UserMapper {
                 .isDriver(userEntity.getIsDriver())
                 .build();
     }
+
+    public static UserEntity toEntity(UserResponse userResponse) {
+        return UserEntity.builder()
+                .id(userResponse.getId())
+                .account(userResponse.getAccount())
+                .name(userResponse.getName())
+                .phoneNumber(userResponse.getPhoneNumber())
+                .birthDate(userResponse.getBirthDate())
+                .cpf(userResponse.getCpf())
+                .cnh(userResponse.getCnh())
+                .isDriver(userResponse.getIsDriver())
+                .build();
+
+    }
 }

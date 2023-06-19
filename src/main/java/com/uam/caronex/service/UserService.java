@@ -30,6 +30,7 @@ public class UserService {
         this.userRepository = userRepository;}
    public UserResponse findUserById(String cpf) {
         UserEntity user = userRepository.findUserById(cpf);
+       System.out.println(user);
 
        return UserMapper.toResponse(user);
     };
