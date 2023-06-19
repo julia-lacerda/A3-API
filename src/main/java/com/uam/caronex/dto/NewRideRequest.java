@@ -2,7 +2,7 @@ package com.uam.caronex.dto;
 
 import com.uam.caronex.entity.UserEntity;
 import com.uam.caronex.model.Location;
-import com.uam.caronex.model.Vehicle;
+import com.uam.caronex.entity.VehicleEntity;
 import com.uam.caronex.util.RideStatusEnum;
 import lombok.*;
 
@@ -21,7 +21,7 @@ public class NewRideRequest {
     private Location destination;
     private List<UserEntity> participantsList;
     private LocalDateTime dateTime;
-    private Vehicle vehicle;
+    private VehicleEntity vehicle;
     private RideStatusEnum status;
 
 }

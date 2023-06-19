@@ -1,4 +1,4 @@
-package com.uam.caronex.model;
+package com.uam.caronex.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

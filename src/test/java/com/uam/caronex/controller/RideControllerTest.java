@@ -1,12 +1,7 @@
 package com.uam.caronex.controller;
 
-import com.uam.caronex.dto.NewRideRequest;
-import com.uam.caronex.dto.RideRequest;
-import com.uam.caronex.dto.RideResponse;
-import com.uam.caronex.dto.UserResponse;
-import com.uam.caronex.entity.RideEntity;
+import com.uam.caronex.dto.*;
 import com.uam.caronex.entity.UserEntity;
-import com.uam.caronex.model.*;
 import com.uam.caronex.repository.RideRepository;
 import com.uam.caronex.service.RideService;
 import com.uam.caronex.service.UserService;
@@ -16,11 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.awt.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -110,6 +100,30 @@ public class RideControllerTest {
         when(rideService.addParticipant(request)).thenReturn(expectedResponse);
 
         RideResponse actualResponse = rideController.addParticipant(request);
+
+        assertEquals(expectedResponse.getId(), actualResponse.getId());
+    }
+
+    @Test
+    public void shouldRemoveParticipant_WhenUserCancelRide() {
+        RemoveParticipantRequest request = new RemoveParticipantRequest();
+        RideResponse expectedResponse = RideResponse.builder().id("a1b2c23").build();
+
+        when(rideService.removeParticipant(request)).thenReturn(expectedResponse);
+
+        RideResponse actualResponse = rideController.removeParticipant(request);
+
+        assertEquals(expectedResponse.getId(), actualResponse.getId());
+    }
+
+    @Test
+    public void shouldUpdateRide_WhenDriverCancelRide() {
+        CancelRideRequest request = new CancelRideRequest();
+        RideResponse expectedResponse = RideResponse.builder().id("a1b2c23").build();
+
+        when(rideService.cancelRide(request)).thenReturn(expectedResponse);
+
+        RideResponse actualResponse = rideController.cancelRide(request);
 
         assertEquals(expectedResponse.getId(), actualResponse.getId());
     }

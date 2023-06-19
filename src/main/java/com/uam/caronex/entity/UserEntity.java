@@ -9,6 +9,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -26,5 +28,5 @@ public class UserEntity {
     private String cpf;
     private String cnh;
     private Boolean isDriver;
-
+    private List<VehicleEntity> vehicles = new ArrayList<>();
 }
