@@ -1,7 +1,6 @@
 package com.uam.caronex.entity;
 
 import com.uam.caronex.model.Location;
-import com.uam.caronex.model.Vehicle;
 import com.uam.caronex.util.RideStatusEnum;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -25,7 +24,7 @@ public class RideEntity {
     private Location origin;
     private Location destination;
     private LocalDateTime dateTime;
-    private Vehicle vehicle;
+    private VehicleEntity vehicle;
     private RideStatusEnum status;
 
 }

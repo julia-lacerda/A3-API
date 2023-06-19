@@ -1,11 +1,10 @@
 package com.uam.caronex.model;
 
 import com.uam.caronex.entity.UserEntity;
+import com.uam.caronex.entity.VehicleEntity;
 import com.uam.caronex.util.RideStatusEnum;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +20,6 @@ public class NewRideModel {
     private Location origin;
     private Location destination;
     private LocalDateTime dateTime;
-    private Vehicle vehicle;
+    private VehicleEntity vehicle;
     private RideStatusEnum status;
 }

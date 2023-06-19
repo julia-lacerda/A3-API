@@ -1,4 +1,4 @@
-package com.uam.caronex.model;
+package com.uam.caronex.dto;
 
 import com.uam.caronex.dto.NewRideRequest;
 import lombok.AllArgsConstructor;

@@ -2,11 +2,10 @@ package com.uam.caronex.service;
 
 import com.uam.caronex.dto.*;
 import com.uam.caronex.entity.RideEntity;
-import com.uam.caronex.entity.UserEntity;
 import com.uam.caronex.mapper.RideMapper;
 import com.uam.caronex.mapper.UserMapper;
-import com.uam.caronex.model.AddParticipantRequest;
-import com.uam.caronex.model.UpdateRideRequest;
+import com.uam.caronex.dto.AddParticipantRequest;
+import com.uam.caronex.dto.UpdateRideRequest;
 import com.uam.caronex.repository.RideRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

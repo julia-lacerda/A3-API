@@ -1,6 +1,9 @@
-package com.uam.caronex.model;
+package com.uam.caronex.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.Pattern;
 
 
@@ -9,7 +12,9 @@ import javax.validation.constraints.Pattern;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vehicle {
+public class VehicleEntity {
+    @Id
+    private String id;
 
     private String model;
     private String color;

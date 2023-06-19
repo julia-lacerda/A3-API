@@ -1,12 +1,7 @@
 package com.uam.caronex.controller;
 
-import com.uam.caronex.dto.NewRideRequest;
-import com.uam.caronex.dto.RideRequest;
-import com.uam.caronex.dto.RideResponse;
-import com.uam.caronex.dto.UserResponse;
-import com.uam.caronex.entity.RideEntity;
+import com.uam.caronex.dto.*;
 import com.uam.caronex.entity.UserEntity;
-import com.uam.caronex.model.*;
 import com.uam.caronex.repository.RideRepository;
 import com.uam.caronex.service.RideService;
 import com.uam.caronex.service.UserService;
@@ -16,11 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.awt.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

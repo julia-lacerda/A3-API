@@ -1,6 +1,5 @@
 package com.uam.caronex.dto;
 
-import com.uam.caronex.model.Location;
 import com.uam.caronex.util.RideStatusEnum;
 import lombok.*;
 

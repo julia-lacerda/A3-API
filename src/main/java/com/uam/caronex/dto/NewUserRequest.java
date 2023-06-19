@@ -1,22 +1,18 @@
 package com.uam.caronex.dto;
 
-import com.uam.caronex.entity.VehicleEntity;
 import com.uam.caronex.model.Account;
-import lombok.*;
-import org.springframework.data.annotation.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-@Builder
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
-    @Id
-    private String id;
+public class NewUserRequest {
     private Account account;
     private String name;
     private String phoneNumber;
@@ -24,5 +20,7 @@ public class UserResponse {
     private String cpf;
     private String cnh;
     private Boolean isDriver;
-    private List<VehicleEntity> vehicles;
 }
+
+
+

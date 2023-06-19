@@ -1,6 +1,5 @@
 package com.uam.caronex.repository;
 
-import com.uam.caronex.dto.UserResponse;
 import com.uam.caronex.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -28,5 +27,20 @@ public class UserRepository {
         query.addCriteria(Criteria.where("cpf").is(cpf));
 
         return mongoTemplate.findOne(query, UserEntity.class);
+    }
+
+    public UserEntity create(UserEntity user) {
+        return mongoTemplate.save(user, "users");
+    }
+
+    public UserEntity update(UserEntity user) {
+        return mongoTemplate.save(user, "users");
+    }
+
+    public void deleteById(String cpf) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("cpf").is(cpf));
+
+        mongoTemplate.remove(query, UserEntity.class);
     }
 }

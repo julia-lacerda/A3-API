@@ -2,12 +2,11 @@ package com.uam.caronex.dto;
 
 import com.uam.caronex.entity.UserEntity;
 import com.uam.caronex.model.Location;
-import com.uam.caronex.model.Vehicle;
+import com.uam.caronex.entity.VehicleEntity;
 import com.uam.caronex.util.RideStatusEnum;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +23,6 @@ public class RideResponse {
     private Location origin;
     private Location destination;
     private LocalDateTime dateTime;
-    private Vehicle vehicle;
+    private VehicleEntity vehicle;
     private RideStatusEnum status;
 }

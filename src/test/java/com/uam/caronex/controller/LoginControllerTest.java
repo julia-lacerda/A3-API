@@ -29,7 +29,7 @@ class LoginControllerTest {
     }
 
     @Test
-    void Should_ReturnTrue_When_HasAccount() {
+    void shouldReturnTrue_WhenHasAccount() {
         String email = "abc123@example.com";
         String password = "abc1234567890#";
 
@@ -38,4 +38,6 @@ class LoginControllerTest {
         boolean response = loginController.loginAuthenticator(email, password);
         assertTrue(response);
     }
+
+
 }
